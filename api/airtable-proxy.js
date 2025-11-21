@@ -11,7 +11,7 @@ export default async function handler(req, res) {
 
     // URL REAL de tu webhook de Airtable
     const AIRTABLE_WEBHOOK_URL =
-      "https://hooks.airtable.com/workflows/v1/genericWebhook/appZu9MszkR6KTMZY/wflfgRWDEox6koBLd/wtrRM9Mr5nAgYQCEX";
+      "https://hooks.airtable.com/workflows/v1/genericWebhook/appW0Wnz7f8pkxDDN/wflRrOsbeKfZw5JdW/wtr9lNGiGfxhcRxdP";
 
     // Llamamos a Airtable desde el servidor (Vercel)
     const airtableRes = await fetch(AIRTABLE_WEBHOOK_URL, {
