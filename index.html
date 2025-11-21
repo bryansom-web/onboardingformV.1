@@ -1404,8 +1404,8 @@
       const statusMsg = document.getElementById("status-msg");
       const submitBtn = document.getElementById("submit-btn");
 
-      const AIRTABLE_WEBHOOK_URL =
-        "https://hooks.airtable.com/workflows/v1/genericWebhook/appZu9MszkR6KTMZY/wflfgRWDEox6koBLd/wtrRM9Mr5nAgYQCEX";
+// Ahora el front le pega a nuestra API en Vercel, no directo a Airtable
+const AIRTABLE_WEBHOOK_URL = "/api/airtable-proxy";
 
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
