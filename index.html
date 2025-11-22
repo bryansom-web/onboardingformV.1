@@ -1,3 +1,992 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Onboarding form · Merchant AML/KYB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg-main: #020617;
+        --bg-card: #0b1120;
+        --bg-input: #020617;
+        --primary: #8b5cf6;
+        --primary-soft: rgba(139, 92, 246, 0.18);
+        --accent: #22d3ee;
+        --text-main: #e5e7eb;
+        --text-muted: #9ca3af;
+        --border: #374151;
+        --danger: #ef4444;
+        --success: #10b981;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        background: radial-gradient(
+          circle at top,
+          #111827 0,
+          #020617 55%,
+          #020617 100%
+        );
+        color: var(--text-main);
+      }
+
+      .page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      header {
+        padding: 12px 18px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+      }
+
+      .lang-toggle {
+        display: flex;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        overflow: hidden;
+        background: rgba(15, 23, 42, 0.95);
+      }
+
+      .lang-btn {
+        border: none;
+        background: transparent;
+        padding: 5px 12px;
+        font-size: 13px;
+        color: var(--text-muted);
+        cursor: pointer;
+        min-width: 40px;
+      }
+
+      .lang-btn.active {
+        background: linear-gradient(135deg, #8b5cf6, #4c1d95);
+        color: #ffffff;
+      }
+
+      main {
+        flex: 1;
+        padding: 10px 16px 32px;
+      }
+
+      .hero {
+        max-width: 820px;
+        margin: 0 auto 22px;
+        text-align: center;
+      }
+
+      .hero-logo-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      .hero-title {
+        font-size: 26px;
+        font-weight: 600;
+        margin: 0 0 6px;
+      }
+
+      .hero-subtitle {
+        font-size: 14px;
+        color: var(--text-muted);
+        max-width: 620px;
+        margin: 0 auto 12px;
+      }
+
+      .hero-tagline {
+        font-size: 11px;
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        color: var(--accent);
+      }
+
+      .form-card {
+        max-width: 880px;
+        margin: 18px auto 32px;
+        background: var(--bg-card);
+        border-radius: 16px;
+        padding: 22px 20px 26px;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        box-shadow: 0 24px 48px rgba(15, 23, 42, 0.9);
+      }
+
+      .section {
+        margin-bottom: 20px;
+      }
+
+      .section-title {
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      .section-desc {
+        font-size: 12px;
+        color: var(--text-muted);
+        margin-bottom: 12px;
+      }
+
+      .divider {
+        height: 1px;
+        width: 100%;
+        background: rgba(55, 65, 81, 0.8);
+        margin: 18px 0;
+        border-radius: 999px;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px 16px;
+      }
+
+      @media (max-width: 780px) {
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .form-label {
+        font-size: 12px;
+      }
+
+      .required {
+        color: var(--danger);
+        margin-left: 3px;
+      }
+
+      input,
+      select,
+      textarea {
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--bg-input);
+        padding: 8px 10px;
+        color: var(--text-main);
+        font-size: 13px;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 1px var(--primary-soft);
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+
+      .help-text {
+        font-size: 11px;
+        color: var(--text-muted);
+      }
+
+      .ubo-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .ubo-item {
+        border-radius: 10px;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        background: rgba(15, 23, 42, 0.9);
+        padding: 10px 10px 12px;
+      }
+
+      .ubo-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+
+      .ubo-title {
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .ubo-remove {
+        border: none;
+        background: transparent;
+        color: var(--text-muted);
+        font-size: 12px;
+        cursor: pointer;
+      }
+
+      .ubo-remove:hover {
+        color: var(--danger);
+      }
+
+      .ubo-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px 10px;
+      }
+
+      @media (max-width: 600px) {
+        .ubo-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .btn-add-ubo {
+        margin-top: 6px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        background: rgba(15, 23, 42, 0.9);
+        color: var(--text-main);
+        padding: 6px 10px;
+        font-size: 12px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .btn-add-ubo span.icon {
+        font-size: 14px;
+      }
+
+      .checkbox-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+
+      .checkbox-row input[type="checkbox"] {
+        margin-top: 2px;
+      }
+
+      .btn-submit {
+        margin-top: 16px;
+        width: 100%;
+        border-radius: 999px;
+        border: none;
+        padding: 12px;
+        font-size: 14px;
+        font-weight: 600;
+        background: linear-gradient(135deg, #8b5cf6, #4c1d95);
+        color: #ffffff;
+        cursor: pointer;
+      }
+
+      .btn-submit:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .status-msg {
+        margin-top: 10px;
+        font-size: 12px;
+      }
+
+      .status-msg.error {
+        color: var(--danger);
+      }
+
+      .status-msg.success {
+        color: var(--success);
+      }
+
+      footer {
+        padding: 14px 16px 20px;
+        font-size: 11px;
+        color: var(--text-muted);
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="page">
+      <!-- HEADER CON TOGGLE DE IDIOMA -->
+      <header>
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang="es">ES</button>
+          <button class="lang-btn" data-lang="en">EN</button>
+        </div>
+      </header>
+
+      <main>
+        <!-- HERO / LOGO CENTRADO -->
+        <section class="hero">
+          <div class="hero-logo-wrapper">
+            <!-- LOGO OSCURO ESTILO ONBOARDING (FLUJO + CHECK) -->
+            <svg
+              width="70"
+              height="70"
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+              style="
+                border-radius: 22px;
+                background: radial-gradient(circle at 30% 0%, #1e293b, #020617);
+                box-shadow: 0 10px 26px rgba(15, 23, 42, 0.85);
+              "
+            >
+              <!-- borde suave -->
+              <rect
+                x="6"
+                y="6"
+                width="88"
+                height="88"
+                rx="24"
+                fill="url(#grad-bg)"
+                stroke="rgba(148,163,184,0.35)"
+                stroke-width="2"
+              />
+              <!-- efecto brillo -->
+              <ellipse
+                cx="30"
+                cy="20"
+                rx="22"
+                ry="10"
+                fill="rgba(148,163,184,0.25)"
+              />
+              <!-- pasos del onboarding -->
+              <circle cx="32" cy="34" r="4.5" fill="#22d3ee" />
+              <circle cx="32" cy="50" r="4.5" fill="#22d3ee" />
+              <circle cx="32" cy="66" r="4.5" fill="#22d3ee" />
+              <!-- líneas de items -->
+              <line
+                x1="42"
+                y1="34"
+                x2="62"
+                y2="34"
+                stroke="#e5e7eb"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+              <line
+                x1="42"
+                y1="50"
+                x2="62"
+                y2="50"
+                stroke="#e5e7eb"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+              <!-- check de aprobación -->
+              <path
+                d="M54 63 L62 71 L77 55"
+                stroke="#22d3ee"
+                stroke-width="5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <defs>
+                <linearGradient id="grad-bg" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#111827" />
+                  <stop offset="40%" stop-color="#020617" />
+                  <stop offset="100%" stop-color="#000000" />
+                </linearGradient>
+              </defs>
+            </svg>
+
+            <div>
+              <div
+                style="
+                  font-size: 14px;
+                  font-weight: 600;
+                  text-transform: uppercase;
+                  letter-spacing: 0.08em;
+                "
+                data-i18n="brand.title"
+              >
+                Onboarding form
+              </div>
+              <div
+                style="font-size: 12px; color: #9ca3af"
+                data-i18n="brand.subtitle"
+              >
+                Formulario de vinculación de comercios
+              </div>
+            </div>
+          </div>
+
+          <h1 class="hero-title" data-i18n="hero.title">
+            Tu onboarding, hecho simple y seguro.
+          </h1>
+          <p class="hero-subtitle" data-i18n="hero.subtitle">
+            Vinculación sin fricción. Cumplimiento sin complicaciones.
+          </p>
+          <span class="hero-tagline" data-i18n="hero.tagline">
+            AML-first · LATAM-ready · Diseñado para fintechs y equipos de
+            compliance
+          </span>
+        </section>
+
+        <!-- FORMULARIO PRINCIPAL -->
+        <section class="form-card">
+          <form id="onboarding-form" novalidate>
+            <!-- SECCIÓN: DATOS DEL COMERCIO -->
+            <div class="section">
+              <h2 class="section-title" data-i18n="section.business.title">
+                Datos del comercio
+              </h2>
+              <p class="section-desc" data-i18n="section.business.desc">
+                Información legal básica de la entidad que será vinculada.
+              </p>
+
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.businessName"
+                      >Nombre legal del comercio</span
+                    ><span class="required">*</span>
+                  </label>
+                  <input id="businessName" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.tradeName"
+                      >Nombre comercial / marca</span
+                    >
+                  </label>
+                  <input id="tradeName" />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.country">País de constitución</span
+                    ><span class="required">*</span>
+                  </label>
+                  <select id="country" required>
+                    <option
+                      value=""
+                      disabled
+                      selected
+                      data-i18n="option.country.placeholder"
+                    >
+                      Selecciona un país
+                    </option>
+                    <option value="CO">Colombia</option>
+                    <option value="MX">México</option>
+                    <option value="AR">Argentina</option>
+                    <option value="CL">Chile</option>
+                    <option value="PE">Perú</option>
+                    <option value="BR">Brasil</option>
+                    <option value="PA">Panamá</option>
+                    <option value="CR">Costa Rica</option>
+                    <option value="EC">Ecuador</option>
+                    <option value="UY">Uruguay</option>
+                    <option value="US">Estados Unidos / USA</option>
+                    <option value="ES">España / Spain</option>
+                    <option value="OTHER" data-i18n="option.other">Otro</option>
+                  </select>
+                  <input
+                    id="countryOther"
+                    placeholder="Especifica el país"
+                    style="display: none"
+                  />
+                  <div class="help-text" data-i18n="help.country">
+                    Si seleccionas “Otro”, por favor indícalo en el campo
+                    adicional.
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.regNumber"
+                      >NIT / Registro mercantil / Tax ID</span
+                    ><span class="required">*</span>
+                  </label>
+                  <input id="regNumber" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.address">Dirección legal</span
+                    ><span class="required">*</span>
+                  </label>
+                  <input id="address" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.website">Sitio web</span>
+                  </label>
+                  <input id="website" placeholder="https://..." />
+                </div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECCIÓN: ACTIVIDAD ECONÓMICA -->
+            <div class="section">
+              <h2 class="section-title" data-i18n="section.activity.title">
+                Actividad económica y riesgo sectorial
+              </h2>
+              <p class="section-desc" data-i18n="section.activity.desc">
+                Entendemos qué haces, a quién atiendes y en qué mercados
+                operas.
+              </p>
+
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.industry"
+                      >Actividad principal / sector</span
+                    ><span class="required">*</span>
+                  </label>
+                  <select id="industry" required>
+                    <option
+                      value=""
+                      disabled
+                      selected
+                      data-i18n="option.industry.placeholder"
+                    >
+                      Selecciona sector
+                    </option>
+                    <option value="ecommerce">E-commerce / Online retail</option>
+                    <option value="saas">Software / SaaS</option>
+                    <option value="financial">
+                      Servicios financieros / Fintech
+                    </option>
+                    <option value="crypto">Cripto / Web3</option>
+                    <option value="gaming">Gaming / Apuestas online</option>
+                    <option value="other" data-i18n="option.other">Otro</option>
+                  </select>
+                  <input
+                    id="industryOther"
+                    placeholder="Especifica la actividad"
+                    style="display: none"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.customerType"
+                      >Tipo de clientes</span
+                    ><span class="required">*</span>
+                  </label>
+                  <select id="customerType" required>
+                    <option
+                      value=""
+                      disabled
+                      selected
+                      data-i18n="option.customerType.placeholder"
+                    >
+                      Selecciona una opción
+                    </option>
+                    <option value="b2c">B2C (personas naturales)</option>
+                    <option value="b2b">B2B (empresas)</option>
+                    <option value="mixed">Mixto</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.salesChannels"
+                      >Canales de venta principales</span
+                    >
+                  </label>
+                  <input
+                    id="salesChannels"
+                    placeholder="Ej: Web propia, marketplace, POS"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.customerCountries"
+                      >Países donde están tus clientes</span
+                    >
+                  </label>
+                  <input
+                    id="customerCountries"
+                    placeholder="Ej: CO, MX, US"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group" style="margin-top: 10px">
+                <label class="form-label">
+                  <span data-i18n="label.businessModel"
+                    >Describe brevemente tu modelo de negocio</span
+                  ><span class="required">*</span>
+                </label>
+                <textarea id="businessModel" required></textarea>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECCIÓN: REPRESENTANTE LEGAL -->
+            <div class="section">
+              <h2 class="section-title" data-i18n="section.rep.title">
+                Representante legal
+              </h2>
+              <p class="section-desc" data-i18n="section.rep.desc">
+                Persona autorizada para actuar en nombre del comercio.
+              </p>
+
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.repName">Nombre completo</span
+                    ><span class="required">*</span>
+                  </label>
+                  <input id="repName" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.repRole">Cargo</span
+                    ><span class="required">*</span>
+                  </label>
+                  <input id="repRole" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.repId"
+                      >Documento de identidad</span
+                    ><span class="required">*</span>
+                  </label>
+                  <input id="repId" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.repNationality"
+                      >Nacionalidad</span
+                    ><span class="required">*</span>
+                  </label>
+                  <input id="repNationality" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.repEmail">Correo corporativo</span
+                    ><span class="required">*</span>
+                  </label>
+                  <input id="repEmail" type="email" required />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.repPhone">Teléfono</span>
+                  </label>
+                  <input id="repPhone" />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.repPep"
+                      >¿Es PEP (Persona Expuesta Políticamente)?</span
+                    ><span class="required">*</span>
+                  </label>
+                  <select id="repPep" required>
+                    <option
+                      value=""
+                      disabled
+                      selected
+                      data-i18n="option.pep.placeholder"
+                    >
+                      Selecciona una opción
+                    </option>
+                    <option value="no" data-i18n="option.no">No</option>
+                    <option value="yes" data-i18n="option.yes">Sí</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECCIÓN: UBOs -->
+            <div class="section">
+              <h2 class="section-title" data-i18n="section.ubos.title">
+                Beneficial Owners (UBOs)
+              </h2>
+              <p class="section-desc" data-i18n="section.ubos.desc">
+                Propietarios reales con 25% o más de participación, o control
+                efectivo equivalente.
+              </p>
+
+              <div class="ubo-list" id="ubo-list">
+                <!-- UBOs dinámicos se insertan aquí -->
+              </div>
+
+              <button type="button" class="btn-add-ubo" id="btn-add-ubo">
+                <span class="icon">＋</span>
+                <span data-i18n="button.addUbo">Agregar UBO</span>
+              </button>
+
+              <div
+                class="help-text"
+                style="margin-top: 6px"
+                data-i18n="help.ubos"
+              >
+                Puedes agregar uno o varios UBOs según tu estructura
+                accionaria.
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECCIÓN: VOLUMEN Y USO DEL SERVICIO -->
+            <div class="section">
+              <h2 class="section-title" data-i18n="section.usage.title">
+                Volumen y uso esperado del servicio
+              </h2>
+              <p class="section-desc" data-i18n="section.usage.desc">
+                Información usada para monitoreo transaccional y calibración de
+                riesgo.
+              </p>
+
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.monthlyVolume"
+                      >Volumen mensual estimado</span
+                    >
+                  </label>
+                  <select id="monthlyVolume">
+                    <option
+                      value=""
+                      disabled
+                      selected
+                      data-i18n="option.volume.placeholder"
+                    >
+                      Selecciona un rango
+                    </option>
+                    <option value="lt10k">&lt; 10,000 USD</option>
+                    <option value="10k-50k">10,000 – 50,000 USD</option>
+                    <option value="50k-250k">50,000 – 250,000 USD</option>
+                    <option value="gt250k">&gt; 250,000 USD</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.currencies"
+                      >Monedas de operación principales</span
+                    >
+                  </label>
+                  <input id="currencies" placeholder="Ej: COP, MXN, USD" />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.inboundCountries"
+                      >Países desde donde recibirás fondos</span
+                    >
+                  </label>
+                  <input
+                    id="inboundCountries"
+                    placeholder="Ej: CO, MX, US"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.outboundCountries"
+                      >Países hacia donde enviarás fondos (si aplica)</span
+                    >
+                  </label>
+                  <input
+                    id="outboundCountries"
+                    placeholder="Ej: CO, MX, US"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.cashUsage"
+                      >¿Manejas efectivo como parte del modelo?</span
+                    >
+                  </label>
+                  <select id="cashUsage">
+                    <option
+                      value=""
+                      disabled
+                      selected
+                      data-i18n="option.cash.placeholder"
+                    >
+                      Selecciona una opción
+                    </option>
+                    <option value="no" data-i18n="option.no">No</option>
+                    <option value="yes" data-i18n="option.yes">Sí</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECCIÓN: DOCUMENTOS -->
+            <div class="section">
+              <h2 class="section-title" data-i18n="section.docs.title">
+                Documentos iniciales
+              </h2>
+              <p class="section-desc" data-i18n="section.docs.desc">
+                Adjunta los documentos requeridos para validar la existencia
+                legal del comercio y sus beneficiarios. Esta información es
+                tratada bajo estándares AML/KYB y se mantiene de forma segura.
+              </p>
+
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.docCert"
+                      >Certificado de constitución / Cámara de comercio</span
+                    >
+                  </label>
+                  <input
+                    type="file"
+                    id="docCert"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.docRep"
+                      >Documento del representante legal</span
+                    >
+                  </label>
+                  <input
+                    type="file"
+                    id="docRep"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.docUbos"
+                      >Documentos de identidad UBO(s)</span
+                    >
+                  </label>
+                  <input
+                    type="file"
+                    id="docUbos"
+                    multiple
+                    accept=".pdf,.jpg,.jpeg,.png"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">
+                    <span data-i18n="label.docStructure"
+                      >Estructura accionaria / organigrama</span
+                    >
+                  </label>
+                  <input
+                    type="file"
+                    id="docStructure"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- SECCIÓN: DECLARACIONES -->
+            <div class="section">
+              <h2
+                class="section-title"
+                data-i18n="section.declarations.title"
+              >
+                Declaraciones y consentimientos
+              </h2>
+              <p class="section-desc" data-i18n="section.declarations.desc">
+                Estas declaraciones son requeridas para cumplir con estándares
+                AML/KYC y normativa de protección de datos.
+              </p>
+
+              <div class="checkbox-row">
+                <input type="checkbox" id="decTruth" required />
+                <label for="decTruth" data-i18n="dec.truth">
+                  Declaro que la información suministrada es verdadera y
+                  completa.
+                </label>
+              </div>
+
+              <div class="checkbox-row">
+                <input type="checkbox" id="decData" required />
+                <label for="decData" data-i18n="dec.data">
+                  Autorizo el tratamiento de mis datos y los de la empresa
+                  conforme a la normativa aplicable de protección de datos y
+                  prevención de lavado de activos.
+                </label>
+              </div>
+
+              <div class="checkbox-row">
+                <input type="checkbox" id="decIllicit" required />
+                <label for="decIllicit" data-i18n="dec.illicit">
+                  Declaro que la empresa no utilizará este servicio para
+                  actividades ilícitas, incluyendo lavado de activos o
+                  financiación del terrorismo.
+                </label>
+              </div>
+
+              <div class="checkbox-row">
+                <input type="checkbox" id="decSanctions" required />
+                <label for="decSanctions" data-i18n="dec.sanctions">
+                  Confirmo que la empresa no opera ni tendrá operaciones
+                  relevantes con personas o jurisdicciones sancionadas (ej.
+                  OFAC/EU/ONU), salvo autorización expresa y documentada.
+                </label>
+              </div>
+            </div>
+
+            <!-- BOTÓN / ESTADO -->
+            <button type="submit" class="btn-submit" id="submit-btn">
+              <span data-i18n="button.submit">
+                Enviar registro
+              </span>
+            </button>
+            <div class="status-msg" id="status-msg"></div>
+          </form>
+        </section>
+      </main>
+
+      <footer>
+        <span data-i18n="footer.text">
+          Flujo AML/KYB para onboarding de comercios. En producción, este
+          formulario puede conectarse a Airtable, Blob Storage y tu GPT de
+          compliance.
+        </span>
+      </footer>
+    </div>
+
     <script>
       // ===== TRADUCCIONES =====
       const translations = {
@@ -590,3 +1579,5 @@
         }
       });
     </script>
+  </body>
+</html>
