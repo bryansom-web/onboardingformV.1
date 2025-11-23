@@ -15,8 +15,6 @@ export default async function handler(req, res) {
   try {
     const url = new URL(`https://api.airtable.com/v0/${baseId}/${tableName}`);
     url.searchParams.append("maxRecords", "10");
-    url.searchParams.append("sort[0][field]", "submittedAt");
-    url.searchParams.append("sort[0][direction]", "desc");
 
     const airtableRes = await fetch(url.toString(), {
       headers: {
