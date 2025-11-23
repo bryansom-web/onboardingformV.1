@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const baseId = "process.env.AIRTABLE_API_TOKEN"; // ← reemplaza esto
+  const baseId = "appW0Wnz7f8pkxDDN"; // ← reemplaza esto
   const tableName = "Imported table"; // ← o el nombre real de tu tabla
   const token = process.env.AIRTABLE_API_TOKEN;
 
